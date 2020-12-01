@@ -1,4 +1,6 @@
-import languageDetect as sc
+import languageDetect as ld
+import tweetCleaner as tc
+import sentimentAnalyser as sa
 import numpy as np
 from pyspark.sql.functions import monotonically_increasing_id, row_number
 from pyspark.sql import Window
@@ -16,7 +18,7 @@ def filterEnglish(df, sqlContext):
 
     print("Success: made tweet list")
 
-    languages = [sc.detect_language(text) for text in tweetList]
+    languages = [ld.detect_language(text) for text in tweetList]
 
     print("Success: languages detected")
 
@@ -28,3 +30,41 @@ def filterEnglish(df, sqlContext):
     print("Success: filtered languages")
 
     return df
+
+
+def clean(df, sqlContext):
+    tweetList = list(df.select('tweet').toPandas()['tweet'])
+    print("Success: made tweet list")
+
+    cleanTweets = [tc.tweet_cleaner_updated(text) for text in tweetList]
+    print("Success: tweets cleaned")
+
+    cleanTweetDf = sqlContext.createDataFrame([(t,) for t in cleanTweets], ['tweet'])
+    df = df.withColumn("row_idx", row_number().over(Window.orderBy(monotonically_increasing_id())))
+    cleanTweetDf = cleanTweetDf.withColumn("row_idx", row_number().over(Window.orderBy(monotonically_increasing_id())))
+    df = df.drop("tweet")
+    df = df.join(cleanTweetDf, df.row_idx == cleanTweetDf.row_idx).drop("row_idx")
+    print("Success: cleaned and joined")
+
+    return df
+
+
+def analyse(df, sqlContext):
+    tweetList = list(df.select('tweet').toPandas()['tweet'])
+    print("Success: made tweet list")
+
+    sentiments = [sa.analyse(text) for text in tweetList]
+    print("Success: tweets analysed")
+
+    sentimentDf = sqlContext.createDataFrame([(s,) for s in sentiments], ['sentiment'])
+    df = df.withColumn("row_idx", row_number().over(Window.orderBy(monotonically_increasing_id())))
+    sentimentDf = sentimentDf.withColumn("row_idx", row_number().over(Window.orderBy(monotonically_increasing_id())))
+    df = df.join(sentimentDf, df.row_idx == sentimentDf.row_idx).drop("row_idx")
+    print("Success: analysed and joined")
+
+    return df
+
+
+
+
+

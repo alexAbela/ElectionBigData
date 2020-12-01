@@ -1,14 +1,19 @@
 import tweetCleaner as tc
+from pyspark.sql.functions import monotonically_increasing_id, row_number
+from pyspark.sql import Window
 
-def clean(df)
+def clean(df, sqlContext):
 
     tweetList = list(df.select('tweet').toPandas()['tweet'])
 
     cleanTweets = [tc.tweet_cleaner_updated(text) for text in tweetList]
 
-    languageDf = sqlContext.createDataFrame([(l,) for l in languages], ['languages'])
+    cleanTweetDf = sqlContext.createDataFrame([(t,) for t in cleanTweets], ['tweet'])
     df = df.withColumn("row_idx", row_number().over(Window.orderBy(monotonically_increasing_id())))
-    languageDf = languageDf.withColumn("row_idx", row_number().over(Window.orderBy(monotonically_increasing_id())))
-    df = df.join(languageDf, df.row_idx == languageDf.row_idx).drop("row_idx")
-    df = df.filter(df.languages == 'english').drop("languages")
+    cleanTweetDf = cleanTweetDf.withColumn("row_idx", row_number().over(Window.orderBy(monotonically_increasing_id())))
+    df = df.drop("tweet")
+    df = df.join(cleanTweetDf, df.row_idx == cleanTweetDf.row_idx).drop("row_idx")
+
+    return df
+
 
