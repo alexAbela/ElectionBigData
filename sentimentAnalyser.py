@@ -19,11 +19,11 @@ def analyse(text):
     ##returns 1 for positive, 2 for negative, 3 for neutral
 
     if pos > neg:
-        return 1
-    if pos == neg:
-        return 3
-    else:
         return 2
+    if pos == neg:
+        return -2
+    else:
+        return 0
 
 # result = pd.DataFrame({'pos':pos,'neg':neg,'neu':neu})
 
