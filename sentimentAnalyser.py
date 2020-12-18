@@ -16,14 +16,8 @@ def analyse(text):
     neu.append(ss[sorted(ss)[2]])
     pos.append(ss[sorted(ss)[3]])
 
-    ##returns 1 for positive, 2 for negative, 3 for neutral
-
-    if pos > neg:
-        return 2
-    if pos == neg:
-        return -2
-    else:
-        return 0
+    compound = ss[sorted(ss)[0]]
+    return float(compound)
 
 # result = pd.DataFrame({'pos':pos,'neg':neg,'neu':neu})
 

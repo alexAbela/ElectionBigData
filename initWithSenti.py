@@ -6,7 +6,7 @@ spark = SparkSession.builder.appName("splitter").master("local[*]").getOrCreate(
 schema = StructType([
     StructField("created_at", DateType(), True),  # 2020-10-15 00:00:01
     StructField("tweet_id", StringType(), True),  # 1.31652922155725E+018
-    StructField("tweet", StringType(), True),  # tweet body
+
     StructField("likes", FloatType(), True),  # like count
     StructField("retweet_count", FloatType(), True),  # retweet count
     StructField("source", StringType(), True),  # twitter source
@@ -24,8 +24,9 @@ schema = StructType([
     StructField("continent", StringType(), True),
     StructField("state", StringType(), True),
     StructField("state_code", StringType(), True),
-    StructField("collected_at", DateType(), True)
+    StructField("collected_at", DateType(), True),
+    StructField("tweet", StringType(), True)  # tweet body
 ])
 
 jbTweets = spark.read.schema(schema).option("multiline", True).option("quote", "\"").option("escape", "\"").csv(
-    "./data/dt10.csv")
+    "./data/jb10filtered.csv")
