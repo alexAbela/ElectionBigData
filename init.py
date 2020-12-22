@@ -2,6 +2,11 @@ from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, FloatType, DateType
 import random
 
+"""
+Script that initiates a .csv file as a pyspark dataframe. 
+We have added a method to save a new csv and a method to create a 10% subset of a larger csv file.  
+"""
+
 spark = SparkSession.builder.appName("splitter").master("local[*]").getOrCreate()
 
 schema = StructType([

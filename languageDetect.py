@@ -2,14 +2,16 @@ import nltk
 from nltk.corpus import stopwords
 from numpy import *
 
+"""
+The script for detecting languafge in a text, 
+inspired from: https://www.kaggle.com/gatandubuc/donald-trump-vs-joe-biden/data 
+"""
 
-textSamples = ["THIS IS A TEST SAMPLE", "Dette er en test tekst", "Ich heiße Harald"]
+# A test set
+# textSamples = ["THIS IS A TEST SAMPLE", "Dette er en test tekst", "Ich heiße Harald"]
 
 
 def calculate_language(text):
-
-    if text is None:
-        return "language undetectable"
 
     languages_ratios = {}
     tokens = nltk.wordpunct_tokenize(text)
@@ -26,6 +28,9 @@ def calculate_language(text):
 
 
 def detect_language(text):
+    if text is None:
+        return "language undetectable"
+
     ratios = calculate_language(text)
 
     most_rated_language = max(ratios, key=ratios.get)
@@ -33,6 +38,6 @@ def detect_language(text):
     return most_rated_language
 
 
-for text in textSamples:
-        print(detect_language(text))
-
+# for text in textSamples:
+#         print(detect_language(text))
+#

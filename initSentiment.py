@@ -2,6 +2,8 @@ from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, FloatType, DateType
 import random
 
+"""DO NOT ADD IN FINAL"""
+
 spark = SparkSession.builder.appName("splitter").master("local[*]").getOrCreate()
 
 schema = StructType([

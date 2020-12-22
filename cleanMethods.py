@@ -1,9 +1,12 @@
 import languageDetect as ld
 import tweetCleaner as tc
-import numpy as np
 from pyspark.sql.functions import monotonically_increasing_id, row_number
 from pyspark.sql import Window
 
+"""
+Script that has methods for cleaning text and filtering define language. 
+Feel that the joining of new data can be optimized, but this works. 
+"""
 
 def filterEnglish(df, sqlContext):
 

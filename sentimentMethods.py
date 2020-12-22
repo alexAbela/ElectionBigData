@@ -3,6 +3,10 @@ import numpy as np
 from pyspark.sql.functions import monotonically_increasing_id, row_number
 from pyspark.sql import Window
 
+"""
+Script with a method to add a row to a datafram containing the compound sentiment of a tweet in its respective row. 
+"""
+
 
 def analyse(df, sqlContext):
     tweetList = list(df.select('tweet').toPandas()['tweet'])

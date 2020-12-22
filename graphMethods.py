@@ -1,6 +1,10 @@
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, FloatType, DateType
-from pyspark.sql import functions as f
 import datetime
+
+"""
+Script that has methods to order a dataframe on a daily basis. The first method sums tweets/day and second
+the average sentiment/day. Maybe these can be joined? 
+"""
 
 
 def amountOfTweetsTime(df, candidate, spark, sqlContext):

@@ -1,10 +1,11 @@
 import csv
-import initSentiment as i
-from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, FloatType, DateType
-from pyspark.sql import functions as f
+from pyspark.sql.types import StructType, StructField, StringType, FloatType
 
-data = i.load('dt10rated')
+"""
+Script that splits the dataframe into states nad calculates the average sentiment for each state 
+towards the respective candidate
+"""
+
 results = []
 with open("./data/stateNames.csv") as csvfile:
     reader = csv.reader(csvfile) # change contents to floats
@@ -33,5 +34,3 @@ def analyse(df, candidate, spark, sqlContext):
         newdf = newdf.union(newRow)
         print(averageSenti)
     return newdf
-
-    
