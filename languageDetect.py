@@ -3,7 +3,7 @@ from nltk.corpus import stopwords
 from numpy import *
 
 """
-The script for detecting languafge in a text, 
+The script for detecting language in a text, 
 inspired from: https://www.kaggle.com/gatandubuc/donald-trump-vs-joe-biden/data 
 """
 
