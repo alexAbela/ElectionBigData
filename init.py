@@ -7,7 +7,7 @@ Script that initiates a .csv file as a pyspark dataframe.
 We have added a method to save a new csv and a method to create a 10% subset of a larger csv file.  
 """
 
-spark = SparkSession.builder.appName("splitter").master("local[*]").getOrCreate()
+spark = SparkSession.builder.appName("splitter").getOrCreate()
 
 schema = StructType([
     StructField("created_at", DateType(), True),  # 2020-10-15 00:00:01

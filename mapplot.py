@@ -6,7 +6,7 @@ Script for creating the comparison map.
 """
 
 
-# Initiating and retreiving relevetn data
+# Initiating and retrieving relevant data
 df = pd.read_csv('data/stateAvgSentiment.csv')
 
 sentiment = []

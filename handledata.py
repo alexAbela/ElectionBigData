@@ -1,4 +1,5 @@
 import init as i
+import time
 import cleanMethods as cm
 import sentimentMethods as sm
 
@@ -8,6 +9,7 @@ This is instead of having to hardcode the cleaning process every time we want to
 """
 
 def handleData(filename, sqlContext):
+    start_time = time.time()
     #Initiates the original csv file and selects the columns we need
     data = i.load(str(filename))
     #Selecting only the fields we need in order to make the dataset as small as possible
@@ -21,14 +23,21 @@ def handleData(filename, sqlContext):
 
     print('Initiating cleaning of tweets')
 
+    print("--- %s seconds ---" % (time.time() - start_time))
+
     #Cleans the text in the tweets
     data = cm.clean(data, sqlContext).cache()
     data = data.dropna(subset=['tweet']).cache()
 
+    print("--- %s seconds ---" % (time.time() - start_time))
+
     print('Initiating cleaning of Analysis of tweets')
+
 
     #Analyses sentiment in tweets
     data = sm.analyse(data, sqlContext).cache()
+
+    print("--- %s seconds ---" % (time.time() - start_time))
 
     return data
 
